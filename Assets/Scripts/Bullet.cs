@@ -42,18 +42,12 @@ public class Bullet : MonoBehaviour
         _rb.AddForce(transform.forward * _bulletSpeed);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Damagable")
-        {
-            Destroy(other.gameObject);
-            ReturnBullet(gameObject);
-        }
-       
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject.tag == "Damagable")
+        {
+            Destroy(collision.gameObject);
+        }
         ReturnBullet(gameObject);
     }
 
