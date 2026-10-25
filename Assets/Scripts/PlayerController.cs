@@ -47,8 +47,8 @@ public class PlayerController : MonoBehaviour
         _rotateAction.performed += OnRotateAround;
         _rotateAction.canceled += OnRotateAroundCancel;
         _jumpAction.performed += OnJump;
-        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     
     void Update()

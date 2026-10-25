@@ -7,13 +7,24 @@ public class Bullet : MonoBehaviour
     private float _maxDistance;
     [SerializeField]
     private float _bulletSpeed = 10f;
+   
+   private BulletPool _bulletPool;
+    
     private Rigidbody _rb;
     private Vector3 _startPosition;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    
+    private void Awake()
     {
+        _bulletPool = transform.parent.GetComponent<BulletPool>();
         _rb = GetComponent<Rigidbody>();
+    }
+    
+    void OnEnable()
+    {
+        _rb.linearVelocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
         _startPosition = transform.position;
+        
     }
 
     // Update is called once per frame
@@ -23,7 +34,7 @@ public class Bullet : MonoBehaviour
         Vector3 dist = transform.position - _startPosition;
         if (dist.sqrMagnitude > _maxDistance * _maxDistance)
         {
-            Destroy(gameObject);
+            ReturnBullet(gameObject);
         }
     }
 
@@ -32,13 +43,18 @@ public class Bullet : MonoBehaviour
         if(other.tag == "Damagable")
         {
             Destroy(other.gameObject);
-            Destroy(gameObject);
+            ReturnBullet(gameObject);
         }
        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        ReturnBullet(gameObject);
+    }
+
+    private void ReturnBullet(GameObject bullet)
+    {
+        _bulletPool.ReturnBullet(gameObject);
     }
 }
