@@ -1307,7 +1307,7 @@ MonoBehaviour:
   _moveSpeed: 10
   _rotateSpeed: 20
   _headSpeed: 25
-  _jumpSpeed: 1
+  _jumpSpeed: 2
 --- !u!136 &452533082
 CapsuleCollider:
   m_ObjectHideFlags: 0
