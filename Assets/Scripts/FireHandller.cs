@@ -39,6 +39,7 @@ public class FireHandller : MonoBehaviour
             return;
         
         _fireAction.performed -= OnFire;
+        _inputSystemActions.Disable();
     }
     
     private void OnDestroy()
