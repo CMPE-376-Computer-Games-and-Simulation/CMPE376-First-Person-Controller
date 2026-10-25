@@ -19,17 +19,12 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         
+         _rb.AddForce(transform.forward * _bulletSpeed);
         Vector3 dist = transform.position - _startPosition;
         if (dist.sqrMagnitude > _maxDistance * _maxDistance)
         {
             Destroy(gameObject);
         }
-    }
-
-    private void FixedUpdate()
-    {
-        _rb.AddForce(transform.forward * _bulletSpeed);
     }
 
     private void OnTriggerEnter(Collider other)
