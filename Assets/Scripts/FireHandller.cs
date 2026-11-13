@@ -10,6 +10,8 @@ public class FireHandller : MonoBehaviour
 
     [SerializeField] 
     private GameObject _bulletPoolObject;
+
+    public int bulletCount;
     
     [SerializeField]
     private float _fireRate;
@@ -22,6 +24,9 @@ public class FireHandller : MonoBehaviour
     
     private InputSystem_Actions _inputSystemActions;
     private InputAction _fireAction;
+    
+    public event Action FireEvent;
+    public event Action CancelFireEvent;
     
     private void Awake()
     {
@@ -40,22 +45,29 @@ public class FireHandller : MonoBehaviour
     private void OnFireCancel(InputAction.CallbackContext obj)
     {
         _isFireActive = false;
+        CancelFireEvent?.Invoke();
         StopCoroutine(FireCoroutine());
     }
 
     private void OnFire(InputAction.CallbackContext obj)
     {
        _isFireActive = true;
+     
        StartCoroutine(FireCoroutine());
     }
 
     private IEnumerator FireCoroutine()
     {
-        while (_isFireActive)
+        while (_isFireActive && bulletCount > 0)
         {
+            if(bulletCount <= 0)
+                yield return null;
+            
             if (Time.time >= _lastFireTime + _fireRate)
             {
+                FireEvent?.Invoke();
                 _lastFireTime = Time.time;
+                bulletCount--;
                 _bulletPool.GetBullet(_gunBarrel.position, _gunBarrel.rotation);
             }
             yield return null; 
